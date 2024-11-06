@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
 import Cadastro from './Cadastro';
 import Inicio from './Inicio';
 
-const App = () => {
-  const [currentPage, setCurrentPage] = useState('cadastro');
+const Stack = createStackNavigator();
 
+const App = () => {
   return (
-    <View style={styles.container}>
-      {currentPage === 'cadastro' && (
-        <Cadastro 
-          onSwitchToLogin={() => setCurrentPage('login')} 
-          onRegister={() => setCurrentPage('inicio')} 
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName="Cadastro" screenOptions={{ headerShown: false }}>
+        <Stack.Screen 
+          name="Cadastro" 
+          component={Cadastro} 
         />
-      )}
-      {currentPage === 'login' && (
-        <Login 
-          onLogin={() => setCurrentPage('inicio')} 
-          onSwitchToCadastro={() => setCurrentPage('cadastro')} // Redireciona para cadastro
+        <Stack.Screen 
+          name="Login" 
+          component={Login} 
         />
-      )}
-      {currentPage === 'inicio' && <Inicio />}
-    </View>
+        <Stack.Screen 
+          name="Inicio" 
+          component={Inicio} 
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1 }
-});
 
 export default App;

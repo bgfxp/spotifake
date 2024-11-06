@@ -1,25 +1,48 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Cadastro = ({ onSwitchToLogin, onRegister }) => {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
+const Cadastro = ({ navigation }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleBirthDateChange = (text) => {
-    
-    let formattedText = text.replace(/[^0-9]/g, '');
-
-   
-    if (formattedText.length > 2 && formattedText.length <= 4) {
-      formattedText = `${formattedText.slice(0, 2)}/${formattedText.slice(2)}`;
-    } else if (formattedText.length > 4) {
-      formattedText = `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}/${formattedText.slice(4, 8)}`;
+  const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      window.alert('ERRO: As senhas não coincidem');
+      return;
     }
-    
-    setBirthDate(formattedText);
+
+    try {
+      const response = await fetch('http://localhost:8000/registro', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: firstName,
+          sobrenome: lastName,
+          dataNascimento: birthDate,
+          email: email,
+          senha: password
+        })
+      });
+
+      if (response.status === 400) {
+        window.alert('ERRO: Usuário já cadastrado!');
+      } else if (response.status === 406) {
+        window.alert('ERRO: Preencha todos os campos!');
+      } else if (response.status === 201) {
+        navigation.navigate('Home');
+      } else {
+        window.alert('ERRO: Ocorreu um erro inesperado');
+      }
+    } catch (error) {
+      window.alert('ERRO: Não foi possível conectar ao servidor');
+    }
   };
 
 
@@ -28,20 +51,20 @@ const Cadastro = ({ onSwitchToLogin, onRegister }) => {
       <Text style={styles.title}>SPOTIFAKE</Text>
       <TextInput 
         placeholder="Nome" 
-        value={name} 
-        onChangeText={setName} 
+        value={firstName} 
+        onChangeText={setFirstName} 
         style={styles.input} 
       />
       <TextInput 
         placeholder="Sobrenome" 
-        value={surname} 
-        onChangeText={setSurname} 
+        value={lastName} 
+        onChangeText={setLastName} 
         style={styles.input} 
       />
       <TextInput 
         placeholder="Data de Nascimento (DD/MM/AAAA)" 
         value={birthDate} 
-        onChangeText={handleBirthDateChange} 
+        onChangeText={setBirthDate} 
         style={styles.input} 
         keyboardType="numeric"
         maxLength={10} 
@@ -60,10 +83,18 @@ const Cadastro = ({ onSwitchToLogin, onRegister }) => {
         style={styles.input} 
         secureTextEntry 
       />
-      <Button title="Cadastrar" onPress={onRegister} color="#1DB954" />
-      
-      <TouchableOpacity onPress={onSwitchToLogin} style={styles.link}>
-        <Text style={styles.linkText}>Se já tiver conta, entre</Text>
+      <TextInput 
+        placeholder="Confirmar Senha" 
+        value={confirmPassword} 
+        onChangeText={setConfirmPassword} 
+        style={styles.input} 
+        secureTextEntry 
+      />
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Registrar</Text>
+      </TouchableOpacity>      
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.linkText}>Já tem uma conta? Faça Login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -100,7 +131,21 @@ const styles = StyleSheet.create({
   linkText: { 
     color: '#1DB954', 
     textDecorationLine: 'underline' 
-  }
+  },
+  button: {
+    width: '100%',
+    height: 50,
+    backgroundColor: 'green',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
 });
 
 export default Cadastro;

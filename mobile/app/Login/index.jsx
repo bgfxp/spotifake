@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -7,7 +7,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      window.alert('ERRO: Por favor, preencha todos os campos.');
+      alert('ERRO: Por favor, preencha todos os campos.');
       return;
     }
 
@@ -25,26 +25,20 @@ const Login = ({ navigation }) => {
       });
 
       if (response.status === 404) {
-        window.alert('ERRO: Usuário não cadastrado!');
-        return
+        alert('ERRO: Usuário não cadastrado!');
       } else if (response.status === 406) {
-        window.alert('ERRO: Preencha todos os campos!');
-        return
+        alert('ERRO: Preencha todos os campos!');
       } else if (response.status === 403) {
-        window.alert('ERRO: Senha incorreta!');
-        return
+        alert('ERRO: Senha incorreta!');
       } else if (response.status === 200) {
         navigation.navigate('Inicio');
       } else if (response.status === 500) {
-        window.alert('ERRO: Ocorreu um erro inesperado');
-        return
+        alert('ERRO: Ocorreu um erro inesperado');
       } else {
-        window.alert('ERRO: Resposta desconhecida do servidor');
-        return
+        alert('ERRO: Resposta desconhecida do servidor');
       }
     } catch (error) {
-      window.alert('ERRO: Não foi possível conectar ao servidor');
-      return
+      alert('ERRO: Não foi possível conectar ao servidor');
     }
   };
 
@@ -57,6 +51,7 @@ const Login = ({ navigation }) => {
         onChangeText={setEmail}
         style={styles.input}
         keyboardType="email-address"
+        placeholderTextColor="#9DA3B4"
       />
       <TextInput
         placeholder="Senha"
@@ -64,6 +59,7 @@ const Login = ({ navigation }) => {
         onChangeText={setPassword}
         style={styles.input}
         secureTextEntry
+        placeholderTextColor="#9DA3B4"
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
@@ -80,46 +76,54 @@ const styles = StyleSheet.create({
     flex: 1, 
     justifyContent: 'center', 
     padding: 20, 
-    backgroundColor: '#121212' 
+    backgroundColor: '#0D0F14', 
   },
   title: { 
-    fontSize: 48, 
+    fontSize: 42, 
     textAlign: 'center', 
-    marginBottom: 20, 
-    color: '#1DB954', 
-    fontWeight: 'bold' 
+    marginBottom: 30, 
+    color: '#F25F5C', 
+    fontWeight: 'bold', 
+    fontFamily: 'sans-serif-light', 
   },
   input: { 
     padding: 15, 
-    borderColor: '#1DB954', 
+    borderColor: '#445B6C', 
     borderWidth: 1, 
-    borderRadius: 5, 
-    marginBottom: 15, 
-    backgroundColor: '#FFFFFF' 
-  },
-  link: { 
-    marginTop: 15, 
-    alignItems: 'center' 
-  },
-  linkText: { 
-    color: '#1DB954', 
-    textDecorationLine: 'underline' 
+    borderRadius: 10, 
+    marginBottom: 20,
+    backgroundColor: '#1F2733', 
+    color: '#FFF',
   },
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: 'green',
+    backgroundColor: '#F25F5C',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: '#fff',
+    letterSpacing: 1,
+  },
+  link: { 
+    alignItems: 'center', 
+  },
+  linkText: { 
+    color: '#F25F5C', 
+    textDecorationLine: 'underline', 
+    fontSize: 16,
+    marginTop: 10,
   },
 });
-
 
 export default Login;

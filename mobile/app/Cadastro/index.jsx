@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 const Cadastro = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
@@ -11,7 +11,7 @@ const Cadastro = ({ navigation }) => {
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
-      window.alert('ERRO: As senhas não coincidem');
+      alert('ERRO: As senhas não coincidem');
       return;
     }
 
@@ -32,19 +32,33 @@ const Cadastro = ({ navigation }) => {
       });
 
       if (response.status === 400) {
-        window.alert('ERRO: Usuário já cadastrado!');
+        alert('ERRO: Usuário já cadastrado!');
       } else if (response.status === 406) {
-        window.alert('ERRO: Preencha todos os campos!');
+        alert('ERRO: Preencha todos os campos!');
       } else if (response.status === 201) {
-        navigation.navigate('Home');
+        navigation.navigate('Inicio');
       } else {
-        window.alert('ERRO: Ocorreu um erro inesperado');
+        alert('ERRO: Ocorreu um erro inesperado');
       }
     } catch (error) {
-      window.alert('ERRO: Não foi possível conectar ao servidor');
+      alert('ERRO: Não foi possível conectar ao servidor');
     }
   };
 
+  
+  const handleBirthDateChange = (value) => {
+    
+    let formattedValue = value.replace(/\D/g, '');
+    
+    
+    if (formattedValue.length >= 3) {
+      formattedValue = `${formattedValue.slice(0, 2)}/${formattedValue.slice(2)}`;
+    }
+    if (formattedValue.length >= 6) {
+      formattedValue = `${formattedValue.slice(0, 5)}/${formattedValue.slice(5, 9)}`;
+    }
+    setBirthDate(formattedValue);
+  };
 
   return (
     <View style={styles.container}>
@@ -54,27 +68,31 @@ const Cadastro = ({ navigation }) => {
         value={firstName} 
         onChangeText={setFirstName} 
         style={styles.input} 
+        placeholderTextColor="#9DA3B4"
       />
       <TextInput 
         placeholder="Sobrenome" 
         value={lastName} 
         onChangeText={setLastName} 
         style={styles.input} 
+        placeholderTextColor="#9DA3B4"
       />
       <TextInput 
         placeholder="Data de Nascimento (DD/MM/AAAA)" 
         value={birthDate} 
-        onChangeText={setBirthDate} 
+        onChangeText={handleBirthDateChange} 
         style={styles.input} 
         keyboardType="numeric"
         maxLength={10} 
+        placeholderTextColor="#9DA3B4"
       />
       <TextInput 
         placeholder="Email" 
         value={email} 
         onChangeText={setEmail} 
         style={styles.input} 
-        keyboardType="email-address" 
+        keyboardType="email-address"
+        placeholderTextColor="#9DA3B4"
       />
       <TextInput 
         placeholder="Senha" 
@@ -82,6 +100,7 @@ const Cadastro = ({ navigation }) => {
         onChangeText={setPassword} 
         style={styles.input} 
         secureTextEntry 
+        placeholderTextColor="#9DA3B4"
       />
       <TextInput 
         placeholder="Confirmar Senha" 
@@ -89,6 +108,7 @@ const Cadastro = ({ navigation }) => {
         onChangeText={setConfirmPassword} 
         style={styles.input} 
         secureTextEntry 
+        placeholderTextColor="#9DA3B4"
       />
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Registrar</Text>
@@ -104,47 +124,50 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     justifyContent: 'center', 
-    padding: 20, 
-    backgroundColor: '#121212' 
+    padding: 20,
+    backgroundColor: '#0D0F14',
   },
   title: { 
-    fontSize: 48, 
+    fontSize: 42, 
     textAlign: 'center', 
-    marginBottom: 20, 
-    color: '#1DB954', 
+    marginBottom: 30, 
+    color: '#F25F5C', 
     fontWeight: 'bold', 
-    fontFamily: 'sans-serif-condensed', 
+    fontFamily: 'sans-serif-light', 
   },
   input: { 
     padding: 15, 
-    borderColor: '#1DB954', 
+    borderColor: '#445B6C', 
     borderWidth: 1, 
-    borderRadius: 5, 
-    marginBottom: 15,
-    backgroundColor: '#FFFFFF', 
-  },
-  link: { 
-    position: 'absolute', 
-    bottom: 20, 
-    right: 20 
+    borderRadius: 10, 
+    marginBottom: 20,
+    backgroundColor: '#1F2733', 
+    color: '#FFF',
   },
   linkText: { 
-    color: '#1DB954', 
-    textDecorationLine: 'underline' 
+    color: '#F25F5C', 
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    fontSize: 16,
+    marginTop: 10,
   },
   button: {
-    width: '100%',
-    height: 50,
-    backgroundColor: 'green',
+    backgroundColor: '#F25F5C',
     borderRadius: 8,
-    justifyContent: 'center',
+    paddingVertical: 15,
     alignItems: 'center',
-    marginBottom: 16,
+    marginVertical: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: '600',
+    color: '#FFF',
+    letterSpacing: 1,
   },
 });
 

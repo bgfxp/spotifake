@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
 import Cadastro from './Cadastro';
 import Inicio from './Inicio';
+import OpcaoPerfil from './Perfil';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,10 @@ const App = () => {
           name="Inicio" 
           component={Inicio} 
         />
+         <Stack.Screen 
+          name="Perfil" x  
+          component={OpcaoPerfil}
+          />
       </Stack.Navigator>
     </NavigationContainer>
   );

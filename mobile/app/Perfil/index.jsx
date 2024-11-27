@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   closeButton: {
-    backgroundColor: '#F25F5C',  // Novo tom de vermelho
+    backgroundColor: '#F25F5C',  
     marginTop: 10,
   },
 });

@@ -20,15 +20,15 @@ const Cadastro = ({ navigation }) => {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           nome: firstName,
           sobrenome: lastName,
           dataNascimento: birthDate,
           email: email,
-          senha: password
-        })
+          senha: password,
+        }),
       });
 
       if (response.status === 400) {
@@ -45,12 +45,8 @@ const Cadastro = ({ navigation }) => {
     }
   };
 
-  
   const handleBirthDateChange = (value) => {
-    
     let formattedValue = value.replace(/\D/g, '');
-    
-    
     if (formattedValue.length >= 3) {
       formattedValue = `${formattedValue.slice(0, 2)}/${formattedValue.slice(2)}`;
     }
@@ -63,56 +59,56 @@ const Cadastro = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SPOTIFAKE</Text>
-      <TextInput 
-        placeholder="Nome" 
-        value={firstName} 
-        onChangeText={setFirstName} 
-        style={styles.input} 
+      <TextInput
+        placeholder="Nome"
+        value={firstName}
+        onChangeText={setFirstName}
+        style={styles.input}
         placeholderTextColor="#9DA3B4"
       />
-      <TextInput 
-        placeholder="Sobrenome" 
-        value={lastName} 
-        onChangeText={setLastName} 
-        style={styles.input} 
+      <TextInput
+        placeholder="Sobrenome"
+        value={lastName}
+        onChangeText={setLastName}
+        style={styles.input}
         placeholderTextColor="#9DA3B4"
       />
-      <TextInput 
-        placeholder="Data de Nascimento (DD/MM/AAAA)" 
-        value={birthDate} 
-        onChangeText={handleBirthDateChange} 
-        style={styles.input} 
+      <TextInput
+        placeholder="Data de Nascimento (DD/MM/AAAA)"
+        value={birthDate}
+        onChangeText={handleBirthDateChange}
+        style={styles.input}
         keyboardType="numeric"
-        maxLength={10} 
+        maxLength={10}
         placeholderTextColor="#9DA3B4"
       />
-      <TextInput 
-        placeholder="Email" 
-        value={email} 
-        onChangeText={setEmail} 
-        style={styles.input} 
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        style={styles.input}
         keyboardType="email-address"
         placeholderTextColor="#9DA3B4"
       />
-      <TextInput 
-        placeholder="Senha" 
-        value={password} 
-        onChangeText={setPassword} 
-        style={styles.input} 
-        secureTextEntry 
+      <TextInput
+        placeholder="Senha"
+        value={password}
+        onChangeText={setPassword}
+        style={styles.input}
+        secureTextEntry
         placeholderTextColor="#9DA3B4"
       />
-      <TextInput 
-        placeholder="Confirmar Senha" 
-        value={confirmPassword} 
-        onChangeText={setConfirmPassword} 
-        style={styles.input} 
-        secureTextEntry 
+      <TextInput
+        placeholder="Confirmar Senha"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        style={styles.input}
+        secureTextEntry
         placeholderTextColor="#9DA3B4"
       />
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Registrar</Text>
-      </TouchableOpacity>      
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.linkText}>Já tem uma conta? Faça Login</Text>
       </TouchableOpacity>
@@ -136,11 +132,11 @@ const styles = StyleSheet.create({
     fontFamily: 'sans-serif-light', 
   },
   input: { 
-    padding: 15, 
+    padding: 10, 
     borderColor: '#445B6C', 
     borderWidth: 1, 
-    borderRadius: 10, 
-    marginBottom: 20,
+    borderRadius: 8, 
+    marginBottom: 15, 
     backgroundColor: '#1F2733', 
     color: '#FFF',
   },
@@ -148,8 +144,8 @@ const styles = StyleSheet.create({
     color: '#F25F5C', 
     textAlign: 'center',
     textDecorationLine: 'underline',
-    fontSize: 16,
-    marginTop: 10,
+    fontSize: 14, 
+    marginTop: -5, 
   },
   button: {
     backgroundColor: '#F25F5C',
